@@ -16,7 +16,7 @@ xhr.send();
 
 setTimeout(() => {
   showData();
-}, 900);
+}, 100);
 
 function showData() {
   const img = document.querySelector(".img");
