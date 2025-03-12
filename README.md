@@ -1,0 +1,1 @@
+Focusing on JS concepts.
