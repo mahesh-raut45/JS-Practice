@@ -110,26 +110,82 @@ function callAfterTaskDone() {
 // fetching data from api
 // "https://dummyjson.com/users/1"
 
-function fetchData(url, callBack) {
-  fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Request failed with status: ", response.status);
+// function fetchData(url, callBack) {
+//   fetch(url)
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error("Request failed with status: ", response.status);
+//       }
+//       return response.text();
+//     })
+//     .then((data) => {
+//       callBack(null, data);
+//     })
+//     .catch((error) => {
+//       callBack(error, null);
+//     });
+// }
+
+// fetchData("https://dummyjson.com/users/n", function (error, data) {
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log(data);
+//   }
+// });
+
+// **** Promises *******
+
+// let promis = new Promise((resolve, reject) => {
+//   let a = 1 + 7;
+//   if (a == 2) {
+//     resolve("Success!");
+//   } else {
+//     reject("Failed");
+//   }
+// });
+
+// the (message) here is the argument passed in resolve/reject
+// promis
+//   .then((message) => {
+//     console.log("Inside then: ", message);
+//   })
+//   .catch((message) => {
+//     console.log("Inside catch: ", message);
+//   });
+
+// Another example
+
+function fetchUserData(userId) {
+  return new Promise((resolve, reject) => {
+    // applying delay
+    setTimeout(() => {
+      // assume this data is returned
+      const users = {
+        1: { id: 1, name: "Alice", email: "alice@example.com" },
+        2: { id: 2, name: "Bob", email: "bob@example.com" },
+      };
+      const user = users[userId];
+      if (user) {
+        resolve(user);
+      } else {
+        reject(new Error(`Can't find user with ID: ${userId}`));
       }
-      return response.text();
-    })
-    .then((data) => {
-      callBack(null, data);
-    })
-    .catch((error) => {
-      callBack(error, null);
-    });
+    }, 1000);
+  });
 }
 
-fetchData("https://dummyjson.com/users/n", function (error, data) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(data);
-  }
-});
+fetchUserData(1)
+  .then((user) => {
+    console.log("User: ", user);
+    fetchUserData(2);
+  })
+  .then((user) => {
+    console.log("User: ", user);
+  })
+  .catch((error) => {
+    console.log("User Not Found: ", error);
+  })
+  .finally(() => {
+    console.log("Finally will run regardless of resolve or reject");
+  });
