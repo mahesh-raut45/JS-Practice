@@ -156,36 +156,64 @@ function callAfterTaskDone() {
 
 // Another example
 
-function fetchUserData(userId) {
-  return new Promise((resolve, reject) => {
-    // applying delay
-    setTimeout(() => {
-      // assume this data is returned
-      const users = {
-        1: { id: 1, name: "Alice", email: "alice@example.com" },
-        2: { id: 2, name: "Bob", email: "bob@example.com" },
-      };
-      const user = users[userId];
-      if (user) {
-        resolve(user);
-      } else {
-        reject(new Error(`Can't find user with ID: ${userId}`));
-      }
-    }, 1000);
-  });
+// function fetchUserData(userId) {
+//   return new Promise((resolve, reject) => {
+//     // applying delay
+//     setTimeout(() => {
+//       // assume this data is returned
+//       const users = {
+//         1: { id: 1, name: "Alice", email: "alice@example.com" },
+//         2: { id: 2, name: "Bob", email: "bob@example.com" },
+//       };
+//       const user = users[userId];
+//       if (user) {
+//         resolve(user);
+//       } else {
+//         reject(new Error(`Can't find user with ID: ${userId}`));
+//       }
+//     }, 1000);
+//   });
+// }
+
+// fetchUserData(1)
+//   .then((user) => {
+//     console.log("User: ", user);
+//     fetchUserData(2);
+//   })
+//   .then((user) => {
+//     console.log("User: ", user);
+//   })
+//   .catch((error) => {
+//     console.log("User Not Found: ", error);
+//   })
+//   .finally(() => {
+//     console.log("Finally will run regardless of resolve or reject");
+//   });
+
+// ---------- Local Storage --------
+
+// localStorage.setItem("username", "Mahi");
+// console.log(localStorage.getItem("Username"));
+
+const user = {
+  username: "",
+  password: "",
+};
+
+console.log(user);
+
+function setUser(username, password) {
+  localStorage.setItem("username", username);
+  localStorage.setItem("password", password);
 }
 
-fetchUserData(1)
-  .then((user) => {
-    console.log("User: ", user);
-    fetchUserData(2);
-  })
-  .then((user) => {
-    console.log("User: ", user);
-  })
-  .catch((error) => {
-    console.log("User Not Found: ", error);
-  })
-  .finally(() => {
-    console.log("Finally will run regardless of resolve or reject");
-  });
+function getUser() {
+  user.username = localStorage.getItem("username");
+  user.password = localStorage.getItem("password");
+  return user;
+}
+
+setUser("Maddy", "Mahi@123");
+
+// console.log(getUser("Madd"));
+console.log(getUser());
